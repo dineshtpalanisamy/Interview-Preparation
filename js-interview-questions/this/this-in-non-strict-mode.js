@@ -115,7 +115,7 @@ const object = {
   // regular method will say I don't know im getting executed at the global level
   arrowMethod: function () {
     setTimeout(() => {
-      console.log(" Arrow method this : ", this);
+      console.log(" Arrow method this : ", this.value);
     }, 1000);
   },
 };
@@ -158,13 +158,15 @@ const obj3 = {
 };
 
 obj3.print();
+console.log(" \n\n\n--------------------------");
 named = "Ganesh";
+// namedd = "Test";
 const TestObject = {
   named: "Dinesh",
   Normalfunc: function () {
     function inner() {
       function innerMost() {
-        console.log(" name ::::: ", this.named);
+        console.log("normal function Test name ::::: ", this.named);
       }
       innerMost();
     }
@@ -173,21 +175,28 @@ const TestObject = {
   ArrowFunction: function () {
     let inner = () => {
       let innermost = () => {
-        console.log(" named : => ", this.named);
+        console.log("  arraow function Test named : => ", this.named);
       };
       innermost();
     };
     inner();
   },
   complexFunctionTest: function () {
-    named = " TestName";
-    function normalInnerFunction() {
-      let innerMost = () => {
-        console.log(" Test complex function : =>", this.named);
-      };
-      innerMost();
+    named = " second Normal function scoped value";
+    function checkInner() {
+      named = " first Normal function scoped value";
+      function normalInnerFunction() {
+        let inner = () => {
+          let innerMost = () => {
+            console.log(" Test complex function : =>", this.named);
+          };
+          innerMost();
+        };
+        inner();
+      }
+      normalInnerFunction();
     }
-    normalInnerFunction();
+    checkInner();
   },
 };
 

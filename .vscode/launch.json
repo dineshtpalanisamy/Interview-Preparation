@@ -11,6 +11,14 @@
       "args": ["a", "file.txt"],
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/js-interview-questions/polyfills/promises/promise.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Script-sequece-testing",
+      "args": ["a", "file.txt"],
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/js-interview-questions/parallelAndSequenceTask/sequence.js"
     }
   ]
 }
