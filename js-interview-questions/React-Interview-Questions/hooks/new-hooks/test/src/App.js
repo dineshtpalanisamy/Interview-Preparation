@@ -1,5 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
+import { useHasFocus } from "./hooks/useHasFocus";
+import { useClickOutSide } from "./hooks/useClickOutSide";
+// import { useOnScreenIntersectionObserver } from "./hooks/useOnScreenHookByIntersectionObserver";
 import List from "./List";
+import DummyComponent from "./components/DummyComponent";
 const useCopy = () => {
   // accept text and returns a function to display the text
   const copy = async (text) => {
@@ -47,6 +51,11 @@ const useToggle = (array, index = 0) => {
 function App() {
   const [value, setValue] = useState("");
   const [currentValue, toggleValue] = useToggle([1, 2, 3, 4, 5], 2);
+  const focus = useHasFocus();
+  const ref = useRef();
+  useClickOutSide(ref, () => {
+    console.log(" Clicked outsid the component");
+  });
 
   //useCallBackHook useCase
   // whenever a number changes when clicking
@@ -83,6 +92,13 @@ function App() {
 
   return (
     <div className="App">
+      <div>{`Focus : ${focus}`}</div>
+
+      <div>
+        <p>Outside Click me!</p>
+        <p ref={ref}>Click me!</p>
+      </div>
+
       <div>
         <textarea
           value={value}
@@ -108,6 +124,9 @@ function App() {
           Toggle Theme
         </button>
         <List getItems={getItems} />
+      </div>
+      <div>
+        <DummyComponent />
       </div>
     </div>
   );
