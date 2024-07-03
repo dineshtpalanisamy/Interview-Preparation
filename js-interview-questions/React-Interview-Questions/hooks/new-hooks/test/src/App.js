@@ -1,58 +1,52 @@
-import { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { useHasFocus } from "./hooks/useHasFocus";
 import { useClickOutSide } from "./hooks/useClickOutSide";
+import { usePrevious } from "./hooks/usePrevious";
 // import { useOnScreenIntersectionObserver } from "./hooks/useOnScreenHookByIntersectionObserver";
+import { useWhyDidYouUpdate } from "./hooks/useWhyDidYouUpdate";
+import { useDebounce } from "./hooks/useDebounce";
+import { UseThrottleComponent } from "./components/useThrottleComponent";
+import { useResponsive } from "./hooks/useResponsive";
+import { useCopy } from "./hooks/useCopy";
+import { useToggle } from "./hooks/useToggle";
+
+// components
 import List from "./List";
 import DummyComponent from "./components/DummyComponent";
-const useCopy = () => {
-  // accept text and returns a function to display the text
-  const copy = async (text) => {
-    // options to copy the data in the browser otherwise no use
-    if (!navigator?.clipboard) {
-      // if not enabled
-      console.warn(" Clipboard is not enabled or available ");
-      return;
-    } else {
-      // async method so try catch
-      try {
-        await navigator.clipboard.writeText(text); // accepts the text and copies it to the clipboard
-      } catch (err) {
-        console.error(` There was error copying text :  ${text} `, err);
-      }
-    }
-  };
-  return copy;
-};
+import AsyncComponent from "./components/AsyncComponent";
+import { FetchComponent } from "./components/FetchComponent";
+import { ScriptComponent } from "./components/ScriptComponent";
+import { DeepCompareEffectComponent } from "./components/DeepCompareEffectComponent";
 
-// const useToggle = (arr, index = 0) => {
-//   const [currentIndex, setCurrentIndex] = useState(index);
-
-//   const toggle = useCallback(() => {
-//     return setCurrentIndex((prevIndex) => {
-//       const index = prevIndex >= arr.length - 1 ? 0 : prevIndex + 1;
-//       console.log(" Index ", index);
-//       console.log(" Value ", arr[index]);
-//       return index;
-//     });
-//   }, [arr]);
-//   return [arr[currentIndex], toggle];
-// };
-
-const useToggle = (array, index = 0) => {
-  const [Index, setIndex] = useState(index);
-  const toggle = useCallback(() => {
-    return setIndex((prevIndex) =>
-      prevIndex >= array.length - 1 ? 0 : prevIndex + 1
-    );
-  }, [array]);
-  return [array[Index], toggle];
-};
+const Counter = React.memo((props) => {
+  useWhyDidYouUpdate("Counter", props);
+  return <div style={props.style}>{props.counts}</div>;
+});
 
 function App() {
+  const [counts, setCounts] = useState(0);
+  const [testCase, setTestCase] = useState(null);
+  const { isMobile, isTablet, isDesktop } = useResponsive();
+
+  console.log(" responsive ------ check", isMobile, isTablet, isDesktop);
+  const onChange = (e) => {
+    console.log(e.target.value);
+  };
+
+  const debounceSearch = useDebounce(onChange, 5000);
+  const counterStyle = {
+    fontSize: "3rem",
+    color: "red",
+  };
+
   const [value, setValue] = useState("");
   const [currentValue, toggleValue] = useToggle([1, 2, 3, 4, 5], 2);
   const focus = useHasFocus();
   const ref = useRef();
+  const [count, setCount] = useState(0);
+
+  // get the previous value passed into the hook on the last render
+  const prevCount = usePrevious(count);
   useClickOutSide(ref, () => {
     console.log(" Clicked outsid the component");
   });
@@ -92,6 +86,12 @@ function App() {
 
   return (
     <div className="App">
+      <div>
+        <h1>
+          Now: {count}, before: {prevCount}
+        </h1>
+        <button onClick={() => setCount(count - 1)}>Decrement</button>
+      </div>
       <div>{`Focus : ${focus}`}</div>
 
       <div>
@@ -127,6 +127,39 @@ function App() {
       </div>
       <div>
         <DummyComponent />
+      </div>
+      <div>
+        <div className="counter">
+          <Counter
+            counts={counts}
+            style={counterStyle}
+            testCaseWithArray={testCase}
+            function={() => console.log(counts)}
+          />
+          <button
+            onClick={() => {
+              setCounts(counts + 1);
+              setTestCase([counts + 1]);
+            }}
+          >
+            Increment
+          </button>
+        </div>
+      </div>
+      <UseThrottleComponent />
+      <div>
+        <input
+          type="search"
+          onChange={debounceSearch}
+          placeholder="Enter your Query"
+        />
+      </div>
+      <div>
+        <AsyncComponent />
+
+        <FetchComponent />
+        <ScriptComponent />
+        <DeepCompareEffectComponent />
       </div>
     </div>
   );

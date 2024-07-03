@@ -21,7 +21,7 @@ function useOnScreenIntersectionObserver(ref) {
       observer.disconnect();
     };
   }, []);
-  console.log("isIntersecting", isIntersecting);
+
   return isIntersecting;
 }
 export { useOnScreenIntersectionObserver };

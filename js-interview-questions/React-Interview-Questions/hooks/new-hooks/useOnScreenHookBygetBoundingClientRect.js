@@ -45,7 +45,7 @@ const Element = ({ number }) => {
 
 const DummyComponent = () => {
   const arr = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 5; i++) {
     arr.push(<Element key={i} number={i} />);
   }
 
