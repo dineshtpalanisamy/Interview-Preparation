@@ -1,26 +1,26 @@
 import React, { useEffect } from "react";
 
-const withLogger = (WrappedComponent) => {
+const withLogger = (OriginalComponent) => {
   const WithLogger = (props) => {
     useEffect(() => {
       // Log data on component mount
-      console.log(`Component ${WrappedComponent.name} mounted.`);
+      console.log(`Component ${OriginalComponent.name} mounted.`);
       return () => {
         // Log data on component unmount
-        console.log(`Component ${WrappedComponent.name} unmounted.`);
+        console.log(`Component ${OriginalComponent.name} unmounted.`);
       };
     }, []);
 
     useEffect(() => {
       // Log data on component update
-      console.log(`Component ${WrappedComponent.name} updated.`);
+      console.log(`Component ${OriginalComponent.name} updated.`);
     });
 
-    return <WrappedComponent {...props} />;
+    return <OriginalComponent {...props} />;
   };
 
   WithLogger.displayName = `withLogger(${
-    WrappedComponent.displayName || WrappedComponent.name
+    OriginalComponent.displayName || OriginalComponent.name
   })`;
   return WithLogger;
 };

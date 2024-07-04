@@ -1,7 +1,8 @@
 // import React, { useState } from "react";
 import HigherOrderComponent from "./HigherOrderComponent";
 
-function PersonOne({ money, handleAmount }) {
+function PersonOne({ moneyy, handleAmountt }) {
+  // debugger;
   // const [money, setMoney] = useState(10);
   // const handleAmount = () => {
   //   return setMoney(money * 2);
@@ -9,8 +10,8 @@ function PersonOne({ money, handleAmount }) {
 
   return (
     <div>
-      <h2> PersonOne auction amount : {money}</h2>
-      <button onClick={handleAmount}> Increment money </button>
+      <h2> PersonOne auction amount : {moneyy}</h2>
+      <button onClick={handleAmountt}> Increment money </button>
     </div>
   );
 }
