@@ -1,0 +1,19 @@
+what is the difference between useMemo and useCallback?
+
+what is the difference between wrapping the components by the:
+
+<div>...</div>
+
+<React.Fragment>...</React.Fragment>
+
+<>...</>
+
+what are the potential options for using useRef?
+
+how to pass any info to props.children?
+
+what is the render props? How to use it?
+
+how to use React.cloneElement?
+
+how to use Hight order components?
